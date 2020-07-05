@@ -2,9 +2,13 @@ package com.example.examplemod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
@@ -77,15 +81,34 @@ public class ExampleMod
     // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
+
+        public static final Block COPPER_ORE = new Block(Block.Properties
+                                                            .create(Material.IRON)
+                                                            .hardnessAndResistance(5.0f,6.0f)
+                                                            .sound(SoundType.STONE)
+                                                            .harvestLevel(1)
+                                                            .harvestTool(ToolType.PICKAXE)
+        ).setRegistryName("copper_ore");
+
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
-            LOGGER.info("HELLO from Register Block");
+            LOGGER.info("************ SUVANKAR_ HELLO from Register Block");
+            blockRegistryEvent.getRegistry().register(
+                    new Block(Block.Properties.create(Material.IRON)
+                                              .hardnessAndResistance(5.0f,6.0f)
+                                              .sound(SoundType.STONE)
+                                              .harvestLevel(1)
+                                              .harvestTool(ToolType.PICKAXE)
+                    ).setRegistryName("copper_ore")
+            );
         }
-        @SubscribeEvent
+
         public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
             // register a new item here
             itemRegistryEvent.getRegistry().register(new Item(new Item.Properties().group(ItemGroup.MATERIALS)).setRegistryName("copper"));
+            //Register copper_ore block here
+            itemRegistryEvent.getRegistry().register(new BlockItem(COPPER_ORE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName("copper_ore"));
         }
     }
 }
